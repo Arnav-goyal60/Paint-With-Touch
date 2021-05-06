@@ -2,8 +2,8 @@ canvas = document.getElementById("myCanvas");
 ctx = canvas.getContext("2d");
 var mouse_event = "";
 var last_position_of_x, last_position_of_y;
-color = document.getElementById("color");
-width = document.getElementById("width_of_line");
+color = "red";
+width = "3";
 canvas.addEventListener("mousedown", my_mousedown);
 
 function my_mousedown(e) {
@@ -19,7 +19,13 @@ canvas.addEventListener("mouseleave", my_mouseleave);
 function my_mouseleave(e) {
     mouse_event = "mouseleave";
 }
-cavas.addEventListener("touchmove", my_touchmove);
+canvas.addEventListener("touchstart", my_touchstart);
+function my_touchstart(){
+    last_position_of_x = e.touches[0].clientX - canvas.offsetLeft;
+last_position_of_y = e.touches[0].clientY - canvas.offsetTop;
+}
+
+canvas.addEventListener("touchmove", my_touchmove);
 
 function my_touchmove(e){
 current_position_of_touch_x = e.touches[0].clientX - canvas.offsetLeft;
@@ -27,12 +33,12 @@ current_position_of_touch_y = e.touches[0].clientY - canvas.offsetTop;
 ctx.beginPath();
 ctx.strokeStyle = color;
 ctx.lineWidth = width;
-ctx.moveTo(last_position_of_touch_x, last_position_of_touch_y);
+ctx.moveTo(last_position_of_x, last_position_of_y);
 ctx.lineTo(current_position_of_touch_x, current_position_of_touch_y);
 ctx.stroke();
 
-last_position_of_touch_x = current_position_of_touch_x;
-last_position_of_touch_y = current_position_of_touch_y;
+last_position_of_x = current_position_of_touch_x;
+last_position_of_y = current_position_of_touch_y;
 }
 canvas.addEventListener("mousemove", my_mousemove);
 
@@ -44,8 +50,8 @@ function my_mousemove(e) {
         ctx.strokeStyle = color;
         ctx.lineWidth = width;
         console.log("last position of x and y coordinates is =");
-        console.log("x=" + last_position_of_mouse_x + "y=" + last_position_of_mouse_y);
-        ctx.moveTo(last_position_of_mouse_x, last_position_of_mouse_y);
+        console.log("x=" + last_position_of_x + "y=" + last_position_of_y);
+        ctx.moveTo(last_position_of_x, last_position_of_y);
         console.log("current position of x and y coordinates is =");
         console.log("x=" + current_position_of_mouse_x + "y=" + current_position_of_mouse_y);
         ctx.lineTo(current_position_of_mouse_x, current_position_of_mouse_y);
